@@ -3,9 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-
-	"github.com/stripe/stripe-go/v81"
-	"github.com/stripe/stripe-go/v81/checkout/session"
 )
 
 
