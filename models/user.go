@@ -22,7 +22,7 @@ type User struct {
 	Role     Role `json:"role"`
 	Address  string `json:"address" binding:"required"`
 	//Orders []Order `gorm:"foreignKey:UserID" json:"orders"`
-	//Pizzas []Pizza `gorm:"foreignKey:UserID" json:"pizzas"`
+	MenuItems []MenuItem `gorm:"foreignKey:UserID" json:"menuItems"`
 
 }
 

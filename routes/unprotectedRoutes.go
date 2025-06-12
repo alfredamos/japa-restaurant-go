@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"github.com/alfredamos/controllers"
+	"github.com/gin-gonic/gin"
 )
 
 func unProtectedRoutes(server *gin.RouterGroup){
