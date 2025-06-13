@@ -6,36 +6,37 @@ import (
 	"github.com/alfredamos/initializers"
 )
 
-/* func cartItemGetById(id string) (CartItem, error) {
-	cartItem := CartItem{} //----> Declaration.
+func orderDetailGetById(id string) (OrderDetail, error) {
+	orderDetail := OrderDetail{} //----> Declaration.
 
 	//----> Retrieve the cart-item with given id from database.
-	err := initializers.DB.First(&cartItem, "id = ?", id).Error
+	err := initializers.DB.First(&orderDetail, "id = ?", id).Error
 
 	//----> Check for error.
 	if err != nil {
-		return CartItem{}, errors.New("the cart-item with the given id is not found")
+		return OrderDetail{}, errors.New("the cart-item with the given id is not found")
 	}
 
 	//----> Send back the response.
-	return cartItem, nil
+	return orderDetail, nil
 }
 
-func pizzaGetById(id string) (Pizza, error) {
-	pizza := Pizza{} //----> Pizza variable.
 
-	//----> Retrieve the pizza with the given id from the database.
-	err := initializers.DB.First(&pizza, "id = ?", id).Error
+func menuItemGetById(id string) (MenuItem, error) {
+	menuItem := MenuItem{} //----> MenuItem variable.
 
-	//----> Check for non existent pizza.
+	//----> Retrieve the menuItem with the given id from the database.
+	err := initializers.DB.First(&menuItem, "id = ?", id).Error
+
+	//----> Check for non existent menuItem.
 	if err != nil {
-		return Pizza{}, errors.New("the pizza with the given id is not found")
+		return MenuItem{}, errors.New("the menuItem with the given id is not found")
 	}
 
 	//----> Send back the response.
-	return pizza, nil
+	return menuItem, nil
 }
-*/
+
 func userGetById(id string) (User, error) {
 	user := User{} //----> User variable.
 	
@@ -51,20 +52,20 @@ func userGetById(id string) (User, error) {
 	return user, nil
 }
 
-/* func getAllCartItemsIds(carts []CartItem)[]CartItem{
-	cartItems := make([]CartItem, 0) //----> Slice of cart-ids
+func getAllOrderDetailsIds(carts []OrderDetail)[]OrderDetail{
+	orderDetails := make([]OrderDetail, 0) //----> Slice of cart-ids
 	
 	//----> Get all the cart-items ids.
 	for _, cart := range carts {
 		//----> Compose the id from the cart-item struct.
-		cartItem := CartItem{ ID: cart.ID}
+		orderDetail := OrderDetail{ ID: cart.ID}
 
 		//----> Append all the ids together to have a slice of cart-item ids.
-		cartItems = append(cartItems, cartItem)
+		orderDetails = append(orderDetails, orderDetail)
 
 	}
 
 	//----> Send back the response
-	return cartItems
+	return orderDetails
 }
- */
+ 

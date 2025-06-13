@@ -3,6 +3,8 @@ package models
 import (
 	"errors"
 	"fmt"
+	"github.com/stripe/stripe-go/v82"
+	"github.com/stripe/stripe-go/v82/checkout/session"
 )
 
 
@@ -15,10 +17,10 @@ type Payment struct {
 func (p Payment) CreatePayment(orderPayload OrderPayload)(*stripe.CheckoutSession, error){
 	fmt.Println("payment : ", p)
 	stripe.Key = p.StripeSecretKey //----> Get the stripe key.
-	cartItems := orderPayload.CartItems//----> Cart line-items.
+	orderDetails := orderPayload.OrderDetails//----> Cart line-items.
 	
 	//----> Fill in the cart line items.
-	lineItems := getLineItems(cartItems)
+	lineItems := getLineItems(orderDetails)
 	
 	//----> Create a new checkout session with the generated line items
 	params := &stripe.CheckoutSessionParams{
@@ -41,15 +43,15 @@ func (p Payment) CreatePayment(orderPayload OrderPayload)(*stripe.CheckoutSessio
 	return s, nil
 }
 
-func getLineItems(cartItems []CartItem)[]*stripe.CheckoutSessionLineItemParams{
+func getLineItems(orderDetails []OrderDetail)[]*stripe.CheckoutSessionLineItemParams{
 	var lineItems []*stripe.CheckoutSessionLineItemParams
 	 
-	for _, item := range cartItems {
+	for _, item := range orderDetails {
 		lineItem := &stripe.CheckoutSessionLineItemParams{
 			PriceData:  &stripe.CheckoutSessionLineItemPriceDataParams{
 				Currency: stripe.String("usd"),
 				ProductData: &stripe.CheckoutSessionLineItemPriceDataProductDataParams{
-					Name: stripe.String(item.Name),
+					Name: stripe.String(string(item.ItemName)),
 					Images: stripe.StringSlice([]string{item.Image}),
 				},
 				UnitAmount: stripe.Int64(int64(item.Price * 100)),

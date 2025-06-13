@@ -78,5 +78,6 @@ func (*User) DeleteUserById(id string) error{
 		return errors.New("this user cannot be deleted")
 	}
 	
+	//----> Send back the response.
 	return nil
 }
