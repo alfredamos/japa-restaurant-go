@@ -20,7 +20,7 @@ type MenuItem struct {
 	Image string `gorm:"type:varchar(255)" json:"image"`
 	Price float64 `json:"price"`
 	UserID string `gorm:"foreignKey:UserID;type:varchar(255)" json:"userId" binding:"required"`
-	User User `json:"user"` 
+	//User User `json:"user"` 
 }
 
 // This functions are called before creating any Post
@@ -89,7 +89,7 @@ func (*MenuItem) GetAllMenuItems() ([]MenuItem, error){
 	menuItems := []MenuItem{}
 
 	//----> Retrieve the menu-items from the database.
-	err := initializers.DB.Find(&menuItems)
+	err := initializers.DB.Find(&menuItems).Error
 
 	//----> Check for retrieval error.
 	if err != nil {

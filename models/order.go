@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"time"
+
 	"github.com/alfredamos/initializers"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -46,7 +47,7 @@ func (t *Order) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (order *Order) DeleteOrderById(id string) error{
 	//----> Check to see if the order to be deleted is available in the database.
-	err := initializers.DB.Model(&Order{}).Preload("CartItems").First(&order, "id = ?", id).Error
+	err := initializers.DB.Model(&Order{}).Preload("OrderDetails").First(&order, "id = ?", id).Error
 	
 	//----> Check for error.
 	if err != nil {
@@ -79,7 +80,7 @@ func (*Order) DeleteOrderByUserId(userId string) error{
 	orders := []Order{} //----> Orders variable.
 
 	//----> Retrieve orders from database.
-	err := initializers.DB.Preload("CartItems").Find(&orders, Order{UserID: userId}).Error
+	err := initializers.DB.Preload("OrderDetails").Find(&orders, Order{UserID: userId}).Error
 	
 	//----> Check for error.
 	if err != nil {
@@ -101,7 +102,7 @@ func (*Order) DeleteAllOrders() error{
 	orders := []Order{} //----> Orders variable.
 
 	//----> Retrieve orders from database.
-	err := initializers.DB.Preload("CartItems").Find(&orders).Error
+	err := initializers.DB.Preload("OrderDetails").Find(&orders).Error
 	
 	//----> Check for error.
 	if err != nil {
@@ -123,7 +124,7 @@ func (*Order) GetAllOrders() ([]Order, error){
 	orders := []Order{} //----> Orders variable.
 
 	//----> Retrieve orders from database.
-	err := initializers.DB.Model(&Order{}).Preload("User").Preload("CartItems").Find(&orders).Error
+	err := initializers.DB.Model(&Order{}).Preload("User").Preload("OrderDetails").Find(&orders).Error
 
 	//----> Check for error.
 	if err != nil {
@@ -138,7 +139,7 @@ func (*Order) GetAllOrdersByUserId(userId string) ([]Order, error){
 	orders := []Order{} //----> Orders variable.
 
 	//----> Retrieve orders from database.
-	err := initializers.DB.Preload("User").Preload("CartItems").Find(&orders, Order{UserID: userId}).Error
+	err := initializers.DB.Preload("User").Preload("OrderDetails").Find(&orders, Order{UserID: userId}).Error
 	
 	//----> Check for error.
 	if err != nil {
@@ -151,7 +152,7 @@ func (*Order) GetAllOrdersByUserId(userId string) ([]Order, error){
 
 func (order *Order) GetOrderById(id string) (Order, error){
 	//----> retrieve the order with the given id from database.
-	err := initializers.DB.Model(&Order{}).Preload("User").Preload("CartItems").First(&order, "id = ?", id).Error
+	err := initializers.DB.Model(&Order{}).Preload("User").Preload("OrderDetails").First(&order, "id = ?", id).Error
 
 	//----> Check for error.
 	if err != nil {
@@ -184,14 +185,14 @@ func (order *OrderPayload) CheckOutOrder() error{
   orderPayloadId := orderPayload.ID
 
 	//----> Make cart-items from cart-item struct.
-	cartItems := makeOrderDetails(carts, orderPayloadId)
+	orderDetails := makeOrderDetails(carts, orderPayloadId)
 
 	//----> Insert all the cart-items with the given order-id in the database.
-	err = initializers.DB.CreateInBatches(&cartItems, len(cartItems)).Error
+	err = initializers.DB.CreateInBatches(&orderDetails, len(orderDetails)).Error
 
 	//----> Check for error.
 	if err != nil{
-		return errors.New("cartItems creation fails")
+		return errors.New("orderDetails creation fails")
 	}
 
 	return nil

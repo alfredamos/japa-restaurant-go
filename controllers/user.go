@@ -55,7 +55,7 @@ func GetUserById(context *gin.Context) {
 	id := context.Param("id")
 	
 	//----> Check for ownership permission
-	err := middlewares.OwnerAuthorize(id, context)
+	err := middlewares.CheckForSameUserAndAdmin(id, context)
 
 	//----> Check for ownership.
 	if err != nil {

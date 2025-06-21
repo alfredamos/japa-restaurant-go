@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"fmt"
-
 	"github.com/alfredamos/initializers"
 	"github.com/alfredamos/middlewares"
 	"golang.org/x/crypto/bcrypt"

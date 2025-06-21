@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"time"
-
 	"github.com/alfredamos/initializers"
 	"github.com/google/uuid"
 	"gorm.io/gorm"

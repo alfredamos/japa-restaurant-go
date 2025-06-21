@@ -11,6 +11,6 @@ func unProtectedRoutes(server *gin.RouterGroup){
 	server.POST("/auth/login",controllers.LoginController)
 
 	//----> Pizza-routes.
-	//server.GET("/pizzas", controllers.GetAllPizza)
+	server.GET("/menu-items", controllers.GetAllMenuItems)
 
 }

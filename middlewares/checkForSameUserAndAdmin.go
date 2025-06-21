@@ -5,12 +5,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func OwnerAuthorize(userId string, c *gin.Context) error {
+func CheckForSameUserAndAdmin(userId string, c *gin.Context) error {
 		//----> Get user id from context.
 		userIdInt := GetUserIdFromContext(c)
 
 		//----> Check for equality of userId.
-		userIsSame := isSameUser(userIdInt, userId) 
+		userIsSame := IsSameUser(userIdInt, userId) 
 
 		//----> Get admin user.
 		_, isAdmin := GetRoleFromContext(c)
@@ -26,7 +26,7 @@ func OwnerAuthorize(userId string, c *gin.Context) error {
 }
 
 //----> Check for checking for same user.
-func isSameUser(userId1, userId2 string) bool{
+func IsSameUser(userId1, userId2 string) bool{
 	return userId1 == userId2
 }
 

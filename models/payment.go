@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+
 	"github.com/stripe/stripe-go/v82"
 	"github.com/stripe/stripe-go/v82/checkout/session"
 )
@@ -67,6 +68,7 @@ func getLineItems(orderDetails []OrderDetail)[]*stripe.CheckoutSessionLineItemPa
 } 
 
 func MakeSuccessAndCancelUrls(origin string) (string, string){
+	origin = "http://localhost:5173"
 	successUrl := fmt.Sprintf("%v/orders/payment-success", origin)
 	cancelUrl := fmt.Sprintf("%v/orders/payment-failure", origin)
 
