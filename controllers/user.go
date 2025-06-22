@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-
 	"github.com/alfredamos/middlewares"
 	"github.com/alfredamos/models"
 	"github.com/gin-gonic/gin"
@@ -15,9 +14,18 @@ func DeleteUserById(context *gin.Context) {
 
 	//----> Get the user id from param
 	id:= context.Param("id")
+
+	//----> Check for ownership permission
+	err := middlewares.CheckForSameUserAndAdmin(id, context)
+
+	//----> Check for ownership.
+	if err != nil {
+		context.JSON(http.StatusForbidden, gin.H{"status": "failed!", "message": fmt.Sprintf("%v", err)})
+		return
+	}
 	
 	//----> Retrieve the user with the given id from database.
-	err := user.DeleteUserById(id)
+	err = user.DeleteUserById(id)
 
 	//----> Check if the user exist.
 	if err != nil{
