@@ -3,7 +3,6 @@ package models
 import (
 	"errors"
 	"time"
-
 	"github.com/alfredamos/initializers"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -36,6 +35,7 @@ type Order struct {
 	TotalQuantity     float64        `json:"totalQuantity"`
 	TotalPrice        float64        `json:"totalPrice"`
 	UserID            string         `gorm:"foreignKey:UserID;type:varchar(255)" json:"userId" binding:"required"`
+	User User `json:"user"`
 	OrderDetails []OrderDetail `gorm:"foreignKey:OrderID" json:"orderDetails"`
 }
 
@@ -81,6 +81,11 @@ func (*Order) DeleteOrderByUserId(userId string) error{
 
 	//----> Retrieve orders from database.
 	err := initializers.DB.Preload("OrderDetails").Find(&orders, Order{UserID: userId}).Error
+	
+	//----> Check for empty orders
+	if len(orders) < 1 {
+		return errors.New("orders are not available in the database")
+	}
 	
 	//----> Check for error.
 	if err != nil {

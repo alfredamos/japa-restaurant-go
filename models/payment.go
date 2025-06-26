@@ -52,7 +52,7 @@ func getLineItems(orderDetails []OrderDetail)[]*stripe.CheckoutSessionLineItemPa
 			PriceData:  &stripe.CheckoutSessionLineItemPriceDataParams{
 				Currency: stripe.String("usd"),
 				ProductData: &stripe.CheckoutSessionLineItemPriceDataProductDataParams{
-					Name: stripe.String(string(item.ItemName)),
+					Name: stripe.String(string(item.Name)),
 					Images: stripe.StringSlice([]string{item.Image}),
 				},
 				UnitAmount: stripe.Int64(int64(item.Price * 100)),

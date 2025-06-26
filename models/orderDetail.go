@@ -13,7 +13,7 @@ type OrderDetail struct {
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deletedAt"`
-	ItemName        string         `gorm:"type:varchar(255)" json:"itemName"`
+	Name        string         `gorm:"type:varchar(255)" json:"name"`
 	Image        string         `gorm:"type:varchar(255)" json:"image"`
 	Quantity     float64        `json:"quantity"`
 	Price        float64        `json:"price"`

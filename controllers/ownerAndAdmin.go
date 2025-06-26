@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"net/http"
+	"reflect"
+
 	"github.com/alfredamos/middlewares"
 	"github.com/alfredamos/models"
 	"github.com/gin-gonic/gin"
@@ -17,7 +19,15 @@ func OwnerAndAdmin(c *gin.Context)  {
 
 	//----> Get the order with the given id
 	order, _ := ord.GetOrderById(id)
-	userId := order.ID //----> User id attached to order.
+
+	//----> Check for empty order.
+	if reflect.ValueOf(order).IsZero(){
+		c.AbortWithStatusJSON(http.StatusNotFound, gin.H{"status": "fail","message": "Order is not found!"})
+		return 
+	}
+
+	//----> Get user id from order.
+	userId := order.UserID //----> User id attached to order.
 
 	//----> Check for equality of userId.
 	isOwner := middlewares.IsSameUser(userIdFromAuth, userId) 

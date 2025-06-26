@@ -60,7 +60,7 @@ func makeOrderDetails(carts []OrderDetail, orderId string) []OrderDetail {
 	//----> Make the cart-items by composing cart-item struct.
 	for _, value := range carts {
 		newCart := OrderDetail{
-			ItemName:     value.ItemName,
+			Name:     value.Name,
 			Price:    value.Price,
 			Quantity: value.Quantity,
 			Image:    value.Image,
