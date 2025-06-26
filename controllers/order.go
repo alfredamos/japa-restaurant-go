@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"github.com/alfredamos/middlewares"
 	"github.com/alfredamos/models"
 	"github.com/gin-gonic/gin"
 )
@@ -41,14 +40,6 @@ func DeleteOrderById(context *gin.Context){
 
 	//----> Get order id from params.
 	id := context.Param("id")
-
-	//----> Check for ownership or admin privilege.
-	isAdmin, isOwnership := checkForOwnershipAndAdmin(id, context)
-
-	if !isAdmin && !isOwnership {
-		context.JSON(http.StatusUnauthorized, gin.H{"status": "failed", "message": "You are not authorized to delete this order!"})
-		return
-	}
 	
 	//----> Delete order with this id.
 	err := order.DeleteOrderById(id)
@@ -70,17 +61,8 @@ func DeleteOrderByUserId(context *gin.Context){
 	//----> Get the user-id from param.
 	userId := context.Param("userId")
 
-	//----> Check for ownership permission or admin privilege.
-	err := middlewares.CheckForSameUserAndAdmin(userId, context)
-
-	//----> Check for ownership.
-	if err != nil {
-		context.JSON(http.StatusForbidden, gin.H{"status": "failed!", "message": fmt.Sprintf("%v", err)})
-		return
-	}
-
 	//----> Delete all orders attach to this userId.
-	err = order.DeleteOrderByUserId(userId)
+	err := order.DeleteOrderByUserId(userId)
 
 	//----> Check for error
 	if err != nil {
@@ -133,15 +115,6 @@ func GetAllOrderByUserId(context *gin.Context){
 	//----> Get the user-id from param.
 	userId := context.Param("userId")
 
-	//----> Check for ownership permission or admin privilege.
-	err := middlewares.CheckForSameUserAndAdmin(userId, context)
-	
-	//----> Check for error.
-	if err != nil {
-		context.JSON(http.StatusForbidden, gin.H{"status": "failed!", "message": fmt.Sprintf("%v", err)})
-		return
-	}
-
 	//----> Get all the orders by given user-id.
 	orders, err := order.GetAllOrdersByUserId(userId)
 
@@ -161,14 +134,6 @@ func GetOrderById(context *gin.Context){
 
 	//----> The id from params.
 	id := context.Param("id")
-
-	//----> Check for ownership or admin privilege.
-	isAdmin, isOwnership := checkForOwnershipAndAdmin(id, context)
-
-	if !isAdmin && !isOwnership {
-		context.JSON(http.StatusUnauthorized, gin.H{"status": "failed", "message": "You are not authorized to delete this order!"})
-		return
-	}
 
 	//----> Get order by order-id.
 	order, err := order.GetOrderById(id)

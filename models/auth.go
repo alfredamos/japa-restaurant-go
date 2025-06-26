@@ -135,7 +135,7 @@ type Role string
 const (
 	Admin   Role = "Admin"
 	Staff Role = "Staff"
-	customer Role = "User"
+	Customer Role = "User"
 )
 
 type Gender string

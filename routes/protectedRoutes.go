@@ -21,19 +21,11 @@ func protectedRoutes(r gin.IRoutes){
 
 	//----> Order routes.
 	r.PATCH("/orders/checkout", controllers.CheckOutOrder)
-	r.GET("/orders/orders-by-user-id/:userId", controllers.GetAllOrderByUserId)
-	r.DELETE("/orders/delete-all-orders-by-user-id/:userId", controllers.DeleteOrderByUserId)
-	
-	r.GET("/orders/:id", controllers.GetOrderById)
-	r.DELETE("/orders/:id", controllers.DeleteOrderById)
 	
 	//----> Menu-item-routes.
 	r.GET("/menu-items/:id", controllers.GetMenuItemById)
 
 	//----> Stripe payment-route
 	r.POST("/stripe-payment/checkout", controllers.CreatePaymentController)
-
-	//----> User-route
-	r.GET("/users/:id", controllers.GetUserById)
 
 }

@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"time"
+
 	"github.com/alfredamos/initializers"
 )
 
@@ -34,7 +35,7 @@ func makeOrder(userId string, carts []OrderDetail, paymentId string) Order{
 		OrderDate:     time.Now(),
 		TotalQuantity: totalQuantity,
 		TotalPrice:    totalPrice,
-		Status:        "Pending",
+		Status:        "Confirmed",
 	}
 
 	return order
